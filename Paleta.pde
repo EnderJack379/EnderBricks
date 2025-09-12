@@ -1,3 +1,5 @@
+//Comit con rama DevWalter
+
 class Paleta {
   PVector pos;
   float ancho;
