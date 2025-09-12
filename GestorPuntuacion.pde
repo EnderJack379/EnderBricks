@@ -1,13 +1,26 @@
-//Comit con rama DevWalter.
-
 class GestorPuntuacion {
-  int puntaje;
-  int vidas;
+  int puntaje = 0;
+  int vidas   = 3;
 
-  void incrementar(int pts) { 
+  void incrementar(int pts) {
+    puntaje += pts;
   }
-  void decrementar() { 
+
+  void decrementar() {
+    vidas--;
   }
-  void mostrar() { 
+
+  void reset() {
+    puntaje = 0;
+    vidas   = 3;
+  }
+
+  void mostrar() {
+    fill(255);
+    textSize(16);
+    textAlign(LEFT, TOP);
+    text("Puntaje: " + puntaje, 10, 10);
+    textAlign(RIGHT, TOP);
+    text("Vidas: " + vidas, width - 10, 10);
   }
 }

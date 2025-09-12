@@ -1,6 +1,6 @@
 class ControladorJuego {
   Paleta paleta;
-  Bola bola;
+  Bola   bola;
   GestorNivel nivel;
   GestorPuntuacion puntuacion;
   EstadoJuego estado;
@@ -15,8 +15,12 @@ class ControladorJuego {
 
   void actualizar(float dt) {
     paleta.actualizar(dt);
-    bola.actualizar(dt, paleta);
-    nivel.actualizar(dt, bola);
+    bola.actualizar(dt, paleta);                  // colisiones y caída
+    nivel.actualizar(dt, bola, puntuacion);       // golpear ladrillos
+    // Verificar vida y Game Over
+    if (puntuacion.vidas <= 0) {
+      estado = EstadoJuego.GAMEOVER;
+    }
   }
 
   void dibujar() {
@@ -28,8 +32,6 @@ class ControladorJuego {
   }
 
   void verificarEntrada() {
-    if (estado == EstadoJuego.INICIO && key == ' ') {
-      estado = EstadoJuego.JUGANDO;
-    }
+    // Aquí puedes capturar W/A/S/D u otras teclas si las necesitas
   }
 }

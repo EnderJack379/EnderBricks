@@ -15,30 +15,21 @@ class Bola {
   void actualizar(float dt, Paleta p) {
     pos.add(PVector.mult(vel, dt));
 
-    // Rebote en paredes
-    if (pos.x < radio || pos.x > width - radio) {
-      vel.x *= -1;
-      pos.x = constrain(pos.x, radio, width - radio);
-    }
-    if (pos.y < radio) {
-      vel.y *= -1;
-      pos.y = radio;
-    }
+    // Rebote en muros...
+    if (pos.x < radio || pos.x > width-radio) { vel.x *= -1; }
+    if (pos.y < radio) { vel.y *= -1; }
 
-    // Rebote con paleta
+    // Rebote con paleta...
     if (pos.y + radio >= p.pos.y &&
         pos.x > p.pos.x && pos.x < p.pos.x + p.ancho) {
       vel.y *= -1;
       pos.y = p.pos.y - radio;
-      // Ajuste de ángulo según impacto
-      float diff = pos.x - (p.pos.x + p.ancho/2);
-      vel.x = map(diff, -p.ancho/2, p.ancho/2, -400, 400);
     }
 
-    // Si cae al fondo, resetea
+    // Si cae al fondo, perder vida y reset bola
     if (pos.y > height + radio) {
+      juego.puntuacion.decrementar();  // ojo: accede al controlador
       reset();
-      // puntuacion.decrementar();
     }
   }
 

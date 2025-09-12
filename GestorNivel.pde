@@ -10,22 +10,23 @@ class GestorNivel {
   }
 
   void iniciarNivel() {
-    ladrillos = new Ladrillo[filas * columnas];
-    float anchoBrick = (width - (columnas+1)*paddingX) / columnas;
-    float altoBrick  = 20;
+    ladrillos = new Ladrillo[filas*columnas];
+    float anchoB = (width - (columnas+1)*paddingX) / columnas;
+    float altoB  = 20;
     for (int i = 0; i < filas; i++) {
       for (int j = 0; j < columnas; j++) {
-        float x = paddingX + j * (anchoBrick + paddingX);
-        float y = paddingY + i * (altoBrick + paddingY) + 50;
-        ladrillos[i*columnas + j] = new Ladrillo(new PVector(x,y), anchoBrick, altoBrick);
+        float x = paddingX + j*(anchoB+paddingX);
+        float y = paddingY + i*(altoB+paddingY) + 50;
+        ladrillos[i*columnas + j] =
+          new Ladrillo(new PVector(x,y), anchoB, altoB);
       }
     }
   }
 
-  void actualizar(float dt, Bola b) {
+  void actualizar(float dt, Bola b, GestorPuntuacion p) {
     for (Ladrillo L : ladrillos) {
       if (L.activo && L.golpear(b)) {
-        // puntuacion.incrementar();
+        p.incrementar(10);   // +10 por ladrillo
         b.vel.y *= -1;
       }
     }
