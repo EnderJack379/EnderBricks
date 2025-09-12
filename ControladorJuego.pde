@@ -5,6 +5,12 @@ class ControladorJuego {
   GestorPuntuacion puntuacion;
   EstadoJuego estado;
 
+  PImage menuImg;
+  PImage gameOverImg;
+
+  void setMenuImage(PImage img)      { this.menuImg = img; }
+  void setGameOverImage(PImage img)  { this.gameOverImg = img; }
+
   void inicializar() {
     paleta     = new Paleta();
     bola       = new Bola();
@@ -16,33 +22,52 @@ class ControladorJuego {
   void render(float dt) {
     switch (estado) {
       case INICIO:
-        pantallaInicio();
+        image(menuImg, 0, 0, width, height);
         break;
+
+      case PRE_JUEGO:
+        dibujarJuego();
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textSize(18);
+        text("Presiona barra espaciadora para iniciar", width/2, height - 40);
+        break;
+
       case JUGANDO:
         actualizarJuego(dt);
         dibujarJuego();
         break;
+
       case GAMEOVER:
-        pantallaGameOver();
+        image(gameOverImg, 0, 0, width, height);
         break;
     }
   }
 
   void procesarKeyPressed(char tecla, int code) {
+    // 1) INICIO + SPACE → PRE_JUEGO
     if (estado == EstadoJuego.INICIO && tecla == ' ') {
+      estado = EstadoJuego.PRE_JUEGO;
+      return;
+    }
+
+    // 2) Cualquier estado + R → reiniciar nivel/bola y PRE_JUEGO
+    if (tecla == 'r' || tecla == 'R') {
+      nivel.iniciarNivel();
+      bola.reset();
+      // Si quieres resetear puntuación y vidas descomenta:
+      // puntuacion.reset();
+      estado = EstadoJuego.PRE_JUEGO;
+      return;
+    }
+
+    // 3) PRE_JUEGO + SPACE → arranca la pelota y pasa a JUGANDO
+    if (estado == EstadoJuego.PRE_JUEGO && tecla == ' ') {
       estado = EstadoJuego.JUGANDO;
       return;
     }
-    if (estado == EstadoJuego.GAMEOVER && (tecla=='r'||tecla=='R')) {
-      inicializar();
-      return;
-    }
-    if (estado == EstadoJuego.JUGANDO && (tecla=='r'||tecla=='R')) {
-      nivel.iniciarNivel();
-      bola.reset();
-      return;
-    }
-    // mover paleta solo en JUGANDO
+
+    // 4) Movimiento de paleta solo en JUGANDO
     if (estado == EstadoJuego.JUGANDO) {
       paleta.keyPressed(code);
     }
@@ -69,35 +94,5 @@ class ControladorJuego {
     bola.mostrar();
     nivel.dibujarLadrillos();
     puntuacion.mostrar();
-  }
-
-  void pantallaInicio() {
-    background(40);
-
-    // Color y tamaño de texto
-    fill(255);
-    textSize(28);
-
-    // Centrado horizontal y vertical
-    textAlign(CENTER, CENTER);
-
-    // Dibuja en el centro exacto de la ventana
-    text("Press SPACE to Start", width/2, height/2);
-  }
-
-  void pantallaGameOver() {
-    background(50);
-
-    // Título GAME OVER
-    fill(255, 100, 100);
-    textSize(36);
-    textAlign(CENTER, CENTER);
-    text("GAME OVER", width/2, height/2 - 30);  // 30px arriba del centro
-
-    // Indicaciones para reiniciar
-    fill(255);
-    textSize(18);
-    textAlign(CENTER, CENTER);
-    text("Press R to Restart Game", width/2, height/2 + 20);  // 20px abajo
   }
 }
