@@ -1,4 +1,4 @@
-//Comit con rama DevWalter
+//Comit con rama DevWalter.
 
 class GestorPuntuacion {
   int puntaje;

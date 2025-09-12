@@ -1,4 +1,4 @@
-//Comit con rama DevWalter
+//Comit con rama DevWalter.
 
 class GestorNivel {
   Ladrillo[] ladrillos;
