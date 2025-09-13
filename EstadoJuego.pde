@@ -1,6 +1,8 @@
 enum EstadoJuego {
   INICIO,
-  PRE_JUEGO, 
+  PRE_JUEGO,
   JUGANDO,
-  GAMEOVER
+  PAUSA,
+  GAMEOVER,
+  VICTORIA
 }

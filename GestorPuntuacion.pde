@@ -21,6 +21,6 @@ class GestorPuntuacion {
     textAlign(LEFT, TOP);
     text("Puntaje: " + puntaje, 10, 10);
     textAlign(RIGHT, TOP);
-    text("Vidas: " + vidas, width - 10, 10);
+    text("Vidas: "   + vidas,   width - 10, 10);
   }
 }
